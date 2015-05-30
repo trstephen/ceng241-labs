@@ -178,6 +178,21 @@ A01 - B03\\[1.5cm]
 
 \section{Introduction}
 
+This lab serves as an introduction to basic digital components and circuits. The following is a list of items explored throughout this lab:
+
+\begin{itemize}
+
+	 \item voltage regulator 
+ 	 \item power supply
+	 \item oscilloscope
+	 \item pulse generator
+	 \item digital multimeter
+	 \item SPDT switch
+	 \item push button debouncer
+	 \item and various electrical components.
+	  
+\end{itemize}
+
 \section{Voltage Regulators}
 \begin{table}[h]
 	\centering
@@ -190,31 +205,32 @@ A01 - B03\\[1.5cm]
 			\textcol{$P$ (mW)} &
 			\textcol{$T$ ($^{\circ}$C)} \\
 		\midrule
-		0.0	& 2\e{-5}	& 2\e{-4}	& 2\e{-4}	& & 22.9 \\
-		1.0	& 1.5\e{-5}	& 2\e{-4}	& 2\e{-4}	& & 22.9 \\
-		2.0	& 4.3\e{-4}	& 6\e{-4}	& 6\e{-4}	& & 23.3 \\
-		3.0	& 1.5913	& 1.599		& 1.599		& & 23.0 \\
-		4.0	& 2.5057	& 2.5143	& 2.5143	& & 23.2 \\
-		5.0	& 3.662		& 3.6758	& 3.6758	& & 23.4 \\
-		6.0	& 4.689		& 4.7083	& 4.7083	& & 23.8 \\
-		7.0	& 4.992		& 5.0129	& 5.0129	& & 24.1 \\
-		8.0	& 4.904		& 4.9252	& 4.9252	& & 24.8 \\
-		9.0	& 4.845		& 4.8655	& 4.8655	& & 25.7 \\
-		10.0& 4.815		& 5.053		& 5.053		& & 25.8 \\
-		11.0& 4.777		& 5.050		& 5.050		& & 26.3 \\
-		12.0& 4.759		& 5.0217	& 5.0127	& & 27.2 \\
+		0.0	& 2\e{-5}	& 2\e{-4}	& 2\e{-4}	& N/A & 22.9 \\
+		1.0	& 1.5\e{-5}	& 2\e{-4}	& 2\e{-4}	& N/A & 22.9 \\
+		2.0	& 4.3\e{-4}	& 6\e{-4}	& 6\e{-4}	& N/A & 23.3 \\
+		3.0	& 1.5913	& 1.599		& 1.599		& 2.25 & 23.0 \\
+		4.0	& 2.5057	& 2.5143	& 2.5143	& 3.76 & 23.2 \\
+		5.0	& 3.662		& 3.6758	& 3.6758	& 4.92 & 23.4 \\
+		6.0	& 4.689		& 4.7083	& 4.7083	& 6.17 & 23.8 \\
+		7.0	& 4.992		& 5.0129	& 5.0129	& 10.1 & 24.1 \\
+		8.0	& 4.904		& 4.9252	& 4.9252	& 15.2 & 24.8 \\
+		9.0	& 4.845		& 4.8655	& 4.8655	& 20.2 & 25.7 \\
+		10.0& 4.815		& 5.053		& 5.053		& 26.2 & 25.8 \\
+		11.0& 4.777		& 5.050		& 5.050		& 31.4 & 26.3 \\
+		12.0& 4.759		& 5.0217	& 5.0217	& 36.4 & 27.2 \\
 		\bottomrule
 	\end{tabular}
 	\caption{Voltage, current and temperature response of LM7805 5V regulator}
 	\label{table:regulator}
 \end{table}
 
-{\em The range of voltages where the regulator voltage output is constant}
+The voltage regulator regulated the output voltage to 5$V$ $+/-$ .3$V$ for input voltages between 6.0$V$ and 12.0$V$. As we can see in Table ~\ref{table:regulator}, when the power supply was set to below 3.0$V$ only stray voltages and currents were present; the voltage regulator blocked insufficient voltages and currents. As the regulator worked to regulate the voltage its power consumption increased, which was evident by the heat dissipated.   
 
-{\em What happens when the regulator is short circuited?}
+Next, the output of the voltage regulator was shorted to ground. Initially, the power supply was set to 8$V$ and 200$mA$; however, the power supply limited the voltage and current to 2.7$V$ and 130$mA$ due to its short circuit protection. The regulator controlled the output to 64.47$mV$ and 136$mA$, while increasing its operating temperature from room temperature to $44.8\,^{\circ}\mathrm{C}$
 
 \section{Signal damping}
-{\em waveforms of under, over, critically damped waves}
+
+Figure \ref{fig:damping} displays examples of over-damped, under-damped, and critically damped waveforms. Properly tuned oscilloscope probes will display a critically damped waveform when tested, and they should be tested prior to every use.
 
 \begin{sidewaysfigure}[h]
 	\centering
@@ -234,7 +250,8 @@ A01 - B03\\[1.5cm]
 	\label{fig:damping}
 \end{sidewaysfigure}
 
-{\em rise and fall time of critically damped wave}
+Figure \ref{fig:rise_fall} illustrates the rise and fall time of critically tuned probes.  The rise and fall times were both calculated to be 1${\mu}s$ $+/-$ .04${\mu}s$.
+
 \begin{figure}[h]
 	\centering
 	\subfigure[Rise time]
@@ -250,7 +267,9 @@ A01 - B03\\[1.5cm]
 \end{figure}
 
 \section{LEDs and Inverters}
-{\em When is the LED lit?}
+
+The LED illuminated in the absence of the signal voltage, while it extinguished at the presence of it. Since the signal voltage was inverted, the LED was connected to the source voltage and the circuit was completed only at the absence of a signal.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.6, draft=false]{inverter}
@@ -258,10 +277,14 @@ A01 - B03\\[1.5cm]
 	\label{fig:inverter}
 \end{figure}
 
-{\em Why use a 7405, not a 7404? (ordinary inverter v. open collector inverter)}
+******** I'm not sure about the following one Tyler. Does my reasoning make sense? **********
+
+The 7405 inverter features open collector outputs, while the 7404 does not. The 7404 inverter connects internally the $V_{cc}$ to the output by way of an internal transistor through a 130${\Omega}$ resistor. Our circuit configuration would then place a parallel run with the LED and external 1k${\Omega}$ resistor. Since the current will chose the path of least resistance, there would not be enough current to power the LED. 
 
 \section{Push button debouncing}
-{\em Display the debounced and non-debounced waveforms}
+
+Figure \ref{fig:debounce} displays the debounced and non-debounced waveforms from activating the push button debouncer. The debounced signal appears cleaner than the non-debounced signal which would lead to more accurate circuit performance and results.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.95\textwidth, draft=false]{debounce}
@@ -269,7 +292,8 @@ A01 - B03\\[1.5cm]
 	\label{fig:debounce}
 \end{figure}
 
-{\em Draw a debouncer with NOR gates}
+A debouncer can be implemented using NOR gates, figure \ref{fig:nor_gates} illustrates such a circuit. 
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5, draft=false]{nor_gates}
@@ -278,5 +302,7 @@ A01 - B03\\[1.5cm]
 \end{figure}
 
 \section{Conclusion}
+
+While being introductory, the circuits explored in this lab performed as expected. The voltage regulator dissipates heat fast under extreme circumstances, but its temperature only increases gradually when used under normal conditions. Also, circuits can be analyzed cleanly with properly tuned oscilloscope probes, an status circuit with LED, and a debouncer. These items help to expedite and facilitate troubleshooting.
 
 \end{document}
