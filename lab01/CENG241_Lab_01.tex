@@ -245,20 +245,18 @@ The LED illuminated in the absence of the signal voltage, while it extinguished 
 	\label{fig:inverter}
 \end{figure}
 
-******** I'm not sure about the following one Tyler. Does my reasoning make sense? **********
-
 The 7405 inverter features open collector outputs, while the 7404 does not. The 7404 inverter connects internally the $V_{cc}$ to the output by way of an internal transistor through a \SI{130}{\ohm} resistor. Our circuit configuration would then place a parallel run with the LED and external \SI{1}{\kilo\ohm} resistor. Since the current will chose the path of least resistance, there would not be enough current to power the LED. 
 
 \section{Push button debouncing}
 
-Figure \ref{fig:debounce} displays the debounced and non-debounced waveforms from activating the push button debouncer. The debounced signal appears cleaner than the non-debounced signal which would lead to more accurate circuit performance and results.
+Actually existing switches are analogue devices, in the sense that the transition between open and closed states is not instantaneous. A button ``bounces'' when it permits a voltage level which is in between the high and low voltage logic levels. Two NAND gates can be combined into an SR flip-flop, which can be used to debounce buttons. Figure \ref{fig:debounce} displays the debounced and non-debounced waveforms from activating the push button. The non-debounced signal switches between high and low levels while the voltage is in an intermediate value. In contrast, the debounced signal transitions to the low level and does not switch back to high. The debounced signal allows the signal to be processed faster because there is no ``settling'' time.
 
 A debouncer can be implemented using NOR gates, figure \ref{fig:nor_gates} illustrates such a circuit. 
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5, draft=false]{nor_gates}
-	\caption{An SPDT debouncer constructed from NOR gates. For clarity, VCC and ground for gates are not connected in figure.}
+	\caption{An SPDT debouncer constructed from NOR gates. For clarity, $V_{cc}$ (pin 14) and ground (pin 7) are not connected in the schematic.}
 	\label{fig:nor_gates}
 \end{figure}
 
