@@ -245,8 +245,6 @@ The LED illuminated in the absence of the signal voltage, while it extinguished 
 	\label{fig:inverter}
 \end{figure}
 
-******** I'm not sure about the following one Tyler. Does my reasoning make sense? **********
-
 The 7405 inverter features open collector outputs, while the 7404 does not. The 7404 inverter connects internally the $V_{cc}$ to the output by way of an internal transistor through a \SI{130}{\ohm} resistor. Our circuit configuration would then place a parallel run with the LED and external \SI{1}{\kilo\ohm} resistor. Since the current will chose the path of least resistance, there would not be enough current to power the LED. 
 
 \section{Push button debouncing}
