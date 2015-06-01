@@ -178,6 +178,21 @@ A01 - B03\\[1.5cm]
 
 \section{Introduction}
 
+This lab serves as an introduction to basic digital components and circuits. The following is a list of items explored throughout this lab:
+
+\begin{itemize}
+
+	 \item voltage regulator 
+ 	 \item power supply
+	 \item oscilloscope
+	 \item pulse generator
+	 \item digital multimeter
+	 \item SPDT switch
+	 \item push button debouncer
+	 \item and various electrical components.
+	  
+\end{itemize}
+
 \section{Voltage Regulators}
 \begin{table}[h]
 	\centering
@@ -188,33 +203,68 @@ A01 - B03\\[1.5cm]
 			\textcol{$I_{in}$ (mA)} &
 			\textcol{$I_{out}$ (mA)} &
 			\textcol{$P$ (mW)} &
-			\textcol{$T$ ($^{\circ}$C)} \\
+			\textcol{$T$ (\si{\celsius})} \\
 		\midrule
-		0.0	& 2\e{-5}	& 2\e{-4}	& 2\e{-4}	& & 22.9 \\
-		1.0	& 1.5\e{-5}	& 2\e{-4}	& 2\e{-4}	& & 22.9 \\
-		2.0	& 4.3\e{-4}	& 6\e{-4}	& 6\e{-4}	& & 23.3 \\
-		3.0	& 1.5913	& 1.599		& 1.599		& & 23.0 \\
-		4.0	& 2.5057	& 2.5143	& 2.5143	& & 23.2 \\
-		5.0	& 3.662		& 3.6758	& 3.6758	& & 23.4 \\
-		6.0	& 4.689		& 4.7083	& 4.7083	& & 23.8 \\
-		7.0	& 4.992		& 5.0129	& 5.0129	& & 24.1 \\
-		8.0	& 4.904		& 4.9252	& 4.9252	& & 24.8 \\
-		9.0	& 4.845		& 4.8655	& 4.8655	& & 25.7 \\
-		10.0& 4.815		& 5.053		& 5.053		& & 25.8 \\
-		11.0& 4.777		& 5.050		& 5.050		& & 26.3 \\
-		12.0& 4.759		& 5.0217	& 5.0127	& & 27.2 \\
+		0.0	& 2e-5		& 2e-4		& 2e-4		& N/A & 22.9 \\
+		1.0	& 1.5e-5	& 2e-4		& 2e-4		& N/A & 22.9 \\
+		2.0	& 4.3e-4	& 6e-4		& 6e-4		& N/A & 23.3 \\
+		3.0	& 1.5913	& 1.599		& 1.599		& 2.25 & 23.0 \\
+		4.0	& 2.5057	& 2.5143	& 2.5143	& 3.76 & 23.2 \\
+		5.0	& 3.662		& 3.6758	& 3.6758	& 4.92 & 23.4 \\
+		6.0	& 4.689		& 4.7083	& 4.7083	& 6.17 & 23.8 \\
+		7.0	& 4.992		& 5.0129	& 5.0129	& 10.1 & 24.1 \\
+		8.0	& 4.904		& 4.9252	& 4.9252	& 15.2 & 24.8 \\
+		9.0	& 4.845		& 4.8655	& 4.8655	& 20.2 & 25.7 \\
+		10.0& 4.815		& 5.053		& 5.053		& 26.2 & 25.8 \\
+		11.0& 4.777		& 5.050		& 5.050		& 31.4 & 26.3 \\
+		12.0& 4.759		& 5.0217	& 5.0217	& 36.4 & 27.2 \\
 		\bottomrule
 	\end{tabular}
 	\caption{Voltage, current and temperature response of LM7805 5V regulator}
 	\label{table:regulator}
 \end{table}
 
-{\em The range of voltages where the regulator voltage output is constant}
+The voltage regulator regulated the output voltage to \SI{5.0 +- 0.3}{\volt} for input voltages between \SI{6.0}{\volt} and \SI{12.0}{\volt}. As we can see in Table \ref{table:regulator}, when the power supply was set to below \SI{3.0}{\volt} only stray voltages and currents were present; the voltage regulator blocked insufficient voltages and currents. As the regulator worked to regulate the voltage its power consumption increased, which was evident by the heat dissipated.   
 
-{\em What happens when the regulator is short circuited?}
+Next, the output of the voltage regulator was shorted to ground. Initially, the power supply was set to \SI{8}{V} and \SI{200}{mA}; however, the power supply limited the voltage and current to \SI{2.7}{\volt} and \SI{130}{mA} due to its short circuit protection. The regulator controlled the output to \SI{64.47}{\milli\volt} and \SI{136}{\milli\ampere}, while increasing its operating temperature from room temperature to \SI{44.8}{\celsius}.
 
 \section{Signal damping}
-{\em waveforms of under, over, critically damped waves}
+
+Figure \ref{fig:damping} displays\footnote{Oscilloscope screen captures are included after the conclusion.} examples of over-damped, under-damped, and critically damped waveforms. Properly tuned oscilloscope probes will display a critically damped waveform when tested, and they should be tested prior to every use.
+
+Figure \ref{fig:rise_fall} illustrates the rise and fall time of critically tuned probes.  The rise and fall times were both calculated to be \SI{1.00 +- 0.04}{\micro\second}.
+
+\section{LEDs and Inverters}
+
+The LED illuminated in the absence of the signal voltage, while it extinguished at the presence of it. Since the signal voltage was inverted, the LED was connected to the source voltage and the circuit was completed only at the absence of a signal.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.6, draft=false]{inverter}
+	\caption{Controlling an LED with a LS7405 inverter.}
+	\label{fig:inverter}
+\end{figure}
+
+The 7405 inverter features open collector outputs, while the 7404 does not. The 7404 inverter connects internally the $V_{cc}$ to the output by way of an internal transistor through a \SI{130}{\ohm} resistor. Our circuit configuration would then place a parallel run with the LED and external \SI{1}{\kilo\ohm} resistor. Since the current will chose the path of least resistance, there would not be enough current to power the LED. 
+
+\section{Push button debouncing}
+
+Actually existing switches are analogue devices, in the sense that the transition between open and closed states is not instantaneous. A button ``bounces'' when it permits a voltage level which is in between the high and low voltage logic levels. Two NAND gates can be combined into an SR flip-flop, which can be used to debounce buttons. Figure \ref{fig:debounce} displays the debounced and non-debounced waveforms from activating the push button. The non-debounced signal switches between high and low levels while the voltage is in an intermediate value. In contrast, the debounced signal transitions to the low level and does not switch back to high. The debounced signal allows the signal to be processed faster because there is no ``settling'' time.
+
+A debouncer can be implemented using NOR gates, figure \ref{fig:nor_gates} illustrates such a circuit. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5, draft=false]{nor_gates}
+	\caption{An SPDT debouncer constructed from NOR gates. For clarity, $V_{cc}$ (pin 14) and ground (pin 7) are not connected in the schematic.}
+	\label{fig:nor_gates}
+\end{figure}
+
+\section{Conclusion}
+
+While being introductory, the circuits explored in this lab performed as expected. The voltage regulator dissipates heat fast under extreme circumstances, but its temperature only increases gradually when used under normal conditions. Also, circuits can be analyzed cleanly with properly tuned oscilloscope probes, an status circuit with LED, and a debouncer. These items help to expedite and facilitate troubleshooting.
+
+\section*{Oscilloscope screen captures}
 
 \begin{sidewaysfigure}[h]
 	\centering
@@ -234,7 +284,6 @@ A01 - B03\\[1.5cm]
 	\label{fig:damping}
 \end{sidewaysfigure}
 
-{\em rise and fall time of critically damped wave}
 \begin{figure}[h]
 	\centering
 	\subfigure[Rise time]
@@ -249,34 +298,11 @@ A01 - B03\\[1.5cm]
 	\label{fig:rise_fall}
 \end{figure}
 
-\section{LEDs and Inverters}
-{\em When is the LED lit?}
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.6, draft=false]{inverter}
-	\caption{Controlling an LED with a LS7405 inverter.}
-	\label{fig:inverter}
-\end{figure}
-
-{\em Why use a 7405, not a 7404? (ordinary inverter v. open collector inverter)}
-
-\section{Push button debouncing}
-{\em Display the debounced and non-debounced waveforms}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.95\textwidth, draft=false]{debounce}
 	\caption{Waveforms of non-debounced (top) and debounced (bottom) SPDT presses}
 	\label{fig:debounce}
 \end{figure}
-
-{\em Draw a debouncer with NOR gates}
-\begin{figure}[h]
-	\centering
-	\includegraphics[scale=0.5, draft=false]{nor_gates}
-	\caption{An SPDT debouncer constructed from NOR gates. For clarity, VCC and ground for gates are not connected in figure.}
-	\label{fig:nor_gates}
-\end{figure}
-
-\section{Conclusion}
 
 \end{document}
