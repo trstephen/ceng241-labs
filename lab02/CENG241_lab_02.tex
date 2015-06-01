@@ -123,14 +123,8 @@
 % Defines a new command for the horizontal lines, change thickness here
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
 
-% scientific notation  use \e
-\providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
-
 % override S column type with centered text column
 \newcommand{\textcol}[1]{\multicolumn{1}{c}{#1}}
-
-% easy unit spacing in math mode
-\providecommand{\units}[1]{\;\text{#1}}
 
 
 %----------------------------------------------------------------------------
@@ -215,31 +209,24 @@ A01 - B03\\[1.5cm]
 \section{Discussion}
 \begin{figure}[htbp]
 	\centering
-%	\includegraphics{schematic_complete}
+	\includegraphics[width=0.95\textwidth, draft=false]{ha_schematic}
 	\caption{Complete schematic of a half adder}
-	\label{fig:schematic_complete}
+	\label{fig:schematic}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
-%	\includegraphics{simulation_functional}
+	\includegraphics[width=0.95\textwidth, draft=false]{functional_sim}
 	\caption{Functional simulation of a half adder}
-	\label{fig:simulation_functional}
+	\label{fig:functional_sim}
 \end{figure}
 
 \begin{figure}[htbp]
 	\centering
-%	\includegraphics{verilog}
-	\caption{Verilog implementation of the half adder}
-	\label{fig:verilog}
+	\includegraphics[width=0.95\textwidth, draft=false]{post_place_timing}
+	\caption{Post place and route timing indicates a delay of 8.9 ns in the half adder}
+	\label{fig:timing}
 \end{figure}
-
-%\begin{figure}[htbp]
-%	\centering
-%%	\includegraphics{timing}
-%	\caption{Results of the post place-and-route timing simulation}
-%	\label{fig:timing}
-%\end{figure}
 
 \lstinputlisting[title=Verilog implementation of a half adder]{ha.v}
 
