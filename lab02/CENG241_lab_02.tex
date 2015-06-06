@@ -206,7 +206,12 @@ A01 - B03\\[1.5cm]
 
 \section{Introduction}
 
-\section{Discussion}
+The second lab serves as a learning environment for the Xilinx ISE (integrated software environment). This software enables simulation of digital circuits which can facilitate the design and troubleshooting of such circuits. Two digital design entry methods were explored: the schematic method, and the Verilog HDL (hardware description language).  
+
+\section{Results}
+
+The following figures are snapshots obtained during this lab. A half adder is illustrated by the schematic method in figure \ref{fig:schematic}, while figure \ref{fig:functional_sim} shows the functional simulation of the design.
+
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.95\textwidth, draft=false]{ha_schematic}
@@ -221,6 +226,12 @@ A01 - B03\\[1.5cm]
 	\label{fig:functional_sim}
 \end{figure}
 
+The Verilog HDL code for a half adder is shown in the figure below, while the post place-and-route timing simulator is shown if figure \ref{fig:timing}. The timing simulation is similar to the functional simulation, but indicates a 8.9ns delay.
+
+\hspace{1cm}
+
+\lstinputlisting[title=Verilog implementation of a half adder]{ha.v}
+
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.95\textwidth, draft=false]{post_place_timing}
@@ -228,14 +239,18 @@ A01 - B03\\[1.5cm]
 	\label{fig:timing}
 \end{figure}
 
-\lstinputlisting[title=Verilog implementation of a half adder]{ha.v}
+\newpage
 
-{\em What are the digital design entry methods? Form your opinion, which one
-is the most efficient? Why?}
+\section{Discussion}
 
-{\em What is the difference between a functional simulation and a timing
-simulation? Is a functional simulation sufficient enough to ensure the correctness of the design?}
+The digital design entry methods explored were the schematic and Verilog HDL. The Verilog HDL seemed to be more efficient testing logic assuming a proper boolean function was available. This method produces quick results for any size circuit, but could be prone to error due to not being able to visualize the circuit. The schematic method is tedious for anything but few component circuits, but enables visualization which may help troubleshooting.
+
+A functional simulation tests the logic of a circuit with no consideration on circuit timing and delays. Timing simulations, meanwhile, test the functionality of circuits with any routing and logic delay considered to give proper results. Functional simulation are not sufficient to ensure the correctness of designs.
+
+
 
 \section{Conclusion}
+
+The two digital design methods explored in this lab offer their individual strengths with their weaknesses. The schematic design is more user friendly, but tedious, while the Verilog HDL is quick and efficient, but could be prone to error. 
 
 \end{document}
