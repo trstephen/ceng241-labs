@@ -17,12 +17,12 @@
 %% Fonts and Symbols
 %% --------------------------
 \usepackage{
-	amsmath,			% math operators
-	amssymb,			% math symbols
-	%			amsthm,				% theorem environment
-	soul,				% strike through with \st{}
-	xcolor,				% color!
-	%			xfrac,				% fancy fractions
+			amsmath,			% math operators
+			amssymb,			% math symbols
+%			amsthm,				% theorem environment
+			soul,				% strike through with \st{}
+			xcolor,				% color!
+%			xfrac,				% fancy fractions
 }	
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
@@ -59,32 +59,32 @@
 			geometry,			% change the margins for specific PAGES
 %			lastpage,			% used with (fancyhdr)
 			parskip,			% disable indents
-			pdflscape,			% ???
+%			pdflscape,			% ???
 			rotating,			% sideways figures
 }
 \geometry{						% specify page size options for (geometry)
-	a4paper, 			% paper size
-	hmargin=1in,		% horizontal margins
-	vmargin=1in,		% vertical margins
+			a4paper, 			% paper size
+			hmargin=1in,		% horizontal margins
+			vmargin=1in,		% vertical margins
 }	
 
 
 %% Units
 %% --------------------------
 \usepackage{
-	siunitx,			% has S (decimal align) column type
+			siunitx,			% has S (decimal align) column type
 }
 \sisetup{input-symbols = {()},  % do not treat "(" and ")" in any special way
 		group-digits  = false, 	% no grouping of digits
-%		load-configurations = abbreviations,
-%		per-mode = symbol,
+%		 load-configurations = abbreviations,
+%		 per-mode = symbol,
 }
 
 %% Misc
 %% --------------------------
 \usepackage{
-	enumitem,			% better control of enumerations, descriptions, etc
-	listings,			% source code import and display
+			enumitem,			% better control of enumerations, descriptions, etc
+			listings,			% source code import and display
 }
 
 \lstset{ %
@@ -93,7 +93,7 @@
 	numbers=none,                   % where to put the line-numbers
 	numberstyle=\tiny\color{mygray},% the style that is used for the line-numbers
 	stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
-	% 	will be numbered
+									% 	will be numbered
 	numbersep=5pt,                  % how far the line-numbers are from the code
 	backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
 	showspaces=false,               % show spaces adding particular underscores
@@ -101,13 +101,13 @@
 	showtabs=false,                 % show tabs within strings adding particular underscores
 	frame=single,	                % box the code [single, none]
 	rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks
-	% 	within not-black text (e.g. commens (green here))
+									% 	within not-black text (e.g. commens (green here))
 	tabsize=2,                      % sets default tabsize to 2 spaces
 	captionpos=b,                   % sets the caption-position to bottom
 	breaklines=true,                % sets automatic line breaking
 	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
 	title=\lstname,                 % show the filename of files included with \lstinputlisting;
-	% 	also try caption instead of title
+									% 	also try caption instead of title
 	keywordstyle=[1]\bfseries\color{darkblue},    % keyword style for mnemonics
 	keywordstyle=[2]\bfseries\color{violet},	% keyword style for . mnemonics
 	commentstyle=\color{mygreen},   % comment style
@@ -151,7 +151,7 @@
 
 % Lab Title
 \HRule \\[0.4cm]
-{\huge \bfseries Lab 0 - Template}\\[0.2cm] % Title of your document
+{\huge \bfseries Lab 2 - Using Xilinx ISE Tutorial}\\[0.2cm] % Title of your document
 \HRule \\[1.5cm]
  
  
@@ -190,7 +190,7 @@ A01 - B03\\[1.5cm]
 
 
 % Date
-{\large \today}\\ % Date, change the \today to a set date if you want to be precise
+{\large 8 June, 2015}\\ % Date, change the \today to a set date if you want to be precise
 
 % Logo
 \begin{figure}[b]	 % put logo at bottom of the page
@@ -204,6 +204,53 @@ A01 - B03\\[1.5cm]
 %				    BODY
 %----------------------------------------------------------------------------
 
-foo
+\section{Introduction}
+
+The second lab serves as a learning environment for the Xilinx ISE (integrated software environment). This software enables simulation of digital circuits which can facilitate the design and troubleshooting of such circuits. Two digital design entry methods were explored: the schematic method, and the Verilog HDL (hardware description language).  
+
+\section{Results}
+
+The following figures are snapshots obtained during this lab. A half adder is illustrated by the schematic in Figure \ref{fig:schematic}. The functional simulation in Figure \ref{fig:functional_sim} shows the expected output from the circuit based on user-defined input. Outputs $S$ and $C$ are shown for all combinations of binary inputs $X$ and $Y$.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.95\textwidth, draft=false]{ha_schematic}
+	\caption{Complete schematic of a half adder}
+	\label{fig:schematic}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.95\textwidth, draft=false]{functional_sim}
+	\caption{Functional simulation of a half adder}
+	\label{fig:functional_sim}
+\end{figure}
+
+The Verilog HDL code for a half adder is shown in the code block below, while the post place-and-route timing simulator is shown if Figure \ref{fig:timing}. An FPGA is programmed according to the verilog module, which is used to determine the runtime delay of the half adder. Figure \ref{fig:timing} indicates that both outputs will arrive 8.2 ns after the inputs.
+
+\hspace{1cm}
+
+\lstinputlisting[title=Verilog implementation of a half adder]{ha.v}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.95\textwidth, draft=false]{post_place_timing}
+	\caption{Post place and route timing indicates a delay of 8.2 ns in the half adder}
+	\label{fig:timing}
+\end{figure}
+
+\newpage
+
+\section{Discussion}
+
+The digital design entry methods explored were the schematic and Verilog HDL. The Verilog HDL seemed to be more efficient testing logic assuming a proper boolean function was available. This method produces quick results for any size circuit, but could be prone to error due to not being able to visualize the circuit. The schematic method is tedious for anything but few component circuits, but enables visualization which may help troubleshooting.
+
+A functional simulation tests the logic of a circuit with no consideration on circuit timing and delays. Timing simulations, meanwhile, test the functionality of circuits with any routing and logic delay considered to give proper results. Functional simulations can only ensure that the logic of the circuit is correct but give no insight about delays arising from timing problems.
+
+
+
+\section{Conclusion}
+
+The two digital design methods explored in this lab offer their individual strengths with their weaknesses. The schematic design is more user friendly, but tedious, while the Verilog HDL is quick and efficient, but could be prone to error. 
 
 \end{document}
