@@ -17,13 +17,18 @@
 %% Fonts and Symbols
 %% --------------------------
 \usepackage{
-			amsmath,			% math operators
-			amssymb,			% math symbols
-%			amsthm,				% theorem environment
-			soul,				% strike through with \st{}
-			xcolor,				% color!
-%			xfrac,				% fancy fractions
-}		
+	amsmath,			% math operators
+	amssymb,			% math symbols
+	%			amsthm,				% theorem environment
+	soul,				% strike through with \st{}
+	xcolor,				% color!
+	%			xfrac,				% fancy fractions
+}	
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{darkblue}{rgb}{0,0,0.4}	
 
 %% Graphics
 %% --------------------
@@ -54,34 +59,62 @@
 			geometry,			% change the margins for specific PAGES
 %			lastpage,			% used with (fancyhdr)
 			parskip,			% disable indents
-%			pdflscape,			% ???
+			pdflscape,			% ???
 			rotating,			% sideways figures
 }
 \geometry{						% specify page size options for (geometry)
-			a4paper, 			% paper size
-			hmargin=1in,		% horizontal margins
-			vmargin=1in,		% vertical margins
+	a4paper, 			% paper size
+	hmargin=1in,		% horizontal margins
+	vmargin=1in,		% vertical margins
 }	
 
 
 %% Units
 %% --------------------------
 \usepackage{
-			siunitx,			% has S (decimal align) column type
+	siunitx,			% has S (decimal align) column type
 }
 \sisetup{input-symbols = {()},  % do not treat "(" and ")" in any special way
 		group-digits  = false, 	% no grouping of digits
-%		 load-configurations = abbreviations,
-%		 per-mode = symbol,
+%		load-configurations = abbreviations,
+%		per-mode = symbol,
 }
 
 %% Misc
 %% --------------------------
 \usepackage{
-			enumitem,			% better control of enumerations, descriptions, etc
+	enumitem,			% better control of enumerations, descriptions, etc
+	listings,			% source code import and display
 }
 
-
+\lstset{ %
+	language=verilog,				% the language of the code
+	basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+	numbers=none,                   % where to put the line-numbers
+	numberstyle=\tiny\color{mygray},% the style that is used for the line-numbers
+	stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+	% 	will be numbered
+	numbersep=5pt,                  % how far the line-numbers are from the code
+	backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores
+	frame=single,	                % box the code [single, none]
+	rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks
+	% 	within not-black text (e.g. commens (green here))
+	tabsize=2,                      % sets default tabsize to 2 spaces
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+	title=\lstname,                 % show the filename of files included with \lstinputlisting;
+	% 	also try caption instead of title
+	keywordstyle=[1]\bfseries\color{darkblue},    % keyword style for mnemonics
+	keywordstyle=[2]\bfseries\color{violet},	% keyword style for . mnemonics
+	commentstyle=\color{mygreen},   % comment style
+	stringstyle=\color{mymauve},    % string literal style
+	escapeinside={\%*}{*)},         % if you want to add a comment within your code
+	morekeywords={*,...}           	% if you want to add more keywords to the set
+}
 
 %----------------------------------------------------------------------------
 %		     MACROS AND COMMANDS
@@ -90,14 +123,8 @@
 % Defines a new command for the horizontal lines, change thickness here
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
 
-% scientific notation  use \e
-\providecommand{\e}[1]{\ensuremath{\times 10^{#1}}}
-
 % override S column type with centered text column
 \newcommand{\textcol}[1]{\multicolumn{1}{c}{#1}}
-
-% easy unit spacing in math mode
-\providecommand{\units}[1]{\;\text{#1}}
 
 
 %----------------------------------------------------------------------------
