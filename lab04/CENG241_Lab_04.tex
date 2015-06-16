@@ -1,0 +1,326 @@
+%----------------------------------------------------------------------------
+%----------------------------------------------------------------------------
+%				    	SETUP
+%----------------------------------------------------------------------------
+%----------------------------------------------------------------------------
+
+\documentclass[11pt]{article}
+
+%----------------------------------------------------------------------------
+%			  	   PACKAGES
+%----------------------------------------------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% 	  Packages
+%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Fonts and Symbols
+%% --------------------------
+\usepackage{
+	amsmath,			% math operators
+	amssymb,			% math symbols
+	%			amsthm,				% theorem environment
+	soul,				% strike through with \st{}
+	xcolor,				% color!
+	%			xfrac,				% fancy fractions
+}	
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{darkblue}{rgb}{0,0,0.4}	
+
+%% Graphics
+%% --------------------
+\usepackage{
+			graphicx,			% allows insertion of images
+			subfigure,			% allows subfigures (a), (b), etc.
+}				
+\graphicspath{ {graphics/} }	% (graphicx) relative path to graphics folder				
+
+%% Tables
+%% --------------------------
+\usepackage{
+			booktabs,			% better tables, discourages vertical rulings
+			multicol,			% allow multi columns
+%			tocloft,			% finer control over TOC; enabled below due to subfigure conflict
+}
+%\usepackage[subfigure]{tocloft}
+%\addtocontents{toc}{\cftpagenumbersoff{subsubsection}} % turn off subsubsection page numbers in ToC
+
+%% Layout Alteration
+%% --------------------------
+\usepackage{			
+%			caption,			% line breaks in captions with \\
+%			changepage,			% change margins for PARTS of pages with (adjustwidth)
+			fancyhdr,			% see config in LAYOUT AND STYLING
+			framed,				% nice boxes; used in Supervisor's Approval
+%			fullpage,			% set full page margins
+			geometry,			% change the margins for specific PAGES
+%			lastpage,			% used with (fancyhdr)
+			parskip,			% disable indents
+			pdflscape,			% ???
+			rotating,			% sideways figures
+}
+\geometry{						% specify page size options for (geometry)
+	a4paper, 			% paper size
+	hmargin=1in,		% horizontal margins
+	vmargin=1in,		% vertical margins
+}	
+
+
+%% Units
+%% --------------------------
+\usepackage{
+	siunitx,			% has S (decimal align) column type
+}
+\sisetup{input-symbols = {()},  % do not treat "(" and ")" in any special way
+		group-digits  = false, 	% no grouping of digits
+%		load-configurations = abbreviations,
+%		per-mode = symbol,
+}
+
+%% Misc
+%% --------------------------
+\usepackage{
+	enumitem,			% better control of enumerations, descriptions, etc
+	listings,			% source code import and display
+}
+
+\lstset{ %
+	language=verilog,				% the language of the code
+	basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+	numbers=none,                   % where to put the line-numbers
+	numberstyle=\tiny\color{mygray},% the style that is used for the line-numbers
+	stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
+	% 	will be numbered
+	numbersep=5pt,                  % how far the line-numbers are from the code
+	backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+	showspaces=false,               % show spaces adding particular underscores
+	showstringspaces=false,         % underline spaces within strings
+	showtabs=false,                 % show tabs within strings adding particular underscores
+	frame=single,	                % box the code [single, none]
+	rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks
+	% 	within not-black text (e.g. commens (green here))
+	tabsize=2,                      % sets default tabsize to 2 spaces
+	captionpos=b,                   % sets the caption-position to bottom
+	breaklines=true,                % sets automatic line breaking
+	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+	title=\lstname,                 % show the filename of files included with \lstinputlisting;
+	% 	also try caption instead of title
+	keywordstyle=[1]\bfseries\color{darkblue},    % keyword style for mnemonics
+	keywordstyle=[2]\bfseries\color{violet},	% keyword style for . mnemonics
+	commentstyle=\color{mygreen},   % comment style
+	stringstyle=\color{mymauve},    % string literal style
+	escapeinside={\%*}{*)},         % if you want to add a comment within your code
+	morekeywords={*,...}           	% if you want to add more keywords to the set
+}
+
+%----------------------------------------------------------------------------
+%		     MACROS AND COMMANDS
+%----------------------------------------------------------------------------
+
+% Defines a new command for the horizontal lines, change thickness here
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} 
+
+% override S column type with centered text column
+\newcommand{\textcol}[1]{\multicolumn{1}{c}{#1}}
+
+
+%----------------------------------------------------------------------------
+%----------------------------------------------------------------------------
+%				   DOCUMENT
+%----------------------------------------------------------------------------
+%----------------------------------------------------------------------------
+
+\begin{document}
+
+%----------------------------------------------------------------------------
+%				    TITLE PAGE
+%----------------------------------------------------------------------------
+
+\begin{titlepage}
+
+\center
+ 
+% Header
+\textsc{\LARGE University of Victoria}\\[1cm] 	% Name of your university/college
+\textsc{\Large CENG 241}\\[0.5cm] 			% Major heading such as course name
+\textsc{\large Digital Design I}\\[0.5cm] 		% Minor heading such as course title
+
+
+% Lab Title
+\HRule \\[0.4cm]
+{\huge \bfseries Lab 4 - 4-bit Binary Adder / Subtractor}\\[0.2cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+ 
+%Lab Instructor Details
+\begin{minipage}{0.7\textwidth}
+\begin{flushleft} 
+
+\large\emph{Instructor:} \\
+Dr. Amirali \textsc{Baniasadi} \\
+\vspace{12 pt}
+\emph{Teaching Assistant:} \\
+Grace \textsc{Hui}
+
+\end{flushleft}
+\end{minipage}
+~
+%% No content here, but it keeps the alignment of the instructor/TA
+%% box correct.
+%% Consider revising.
+\begin{minipage}{0.1\textwidth}
+\begin{flushright} \large
+%Dr. Barbara \textsc{Sawicka} \\
+\vspace{12 pt}
+%\emph{Teaching Assistant:} \\
+%Vahid \textsc{Moradi}
+\end{flushright}
+\end{minipage}\\[2cm]
+
+
+% Lab members
+\Large Yves \textsc{Senechal}
+\large V00213837	\\
+\Large Tyler \textsc{Stephen}
+\large V00812021	\\
+A01 - B03\\[1.5cm] 
+
+
+% Date
+{\large June 22, 2015}\\ % Date, change the \today to a set date if you want to be precise
+
+% Logo
+\begin{figure}[b]	 % put logo at bottom of the page
+	\centering
+	\includegraphics[scale=0.3]{UVic_logo}
+\end{figure}
+
+\end{titlepage}
+
+%----------------------------------------------------------------------------
+%				    BODY
+%----------------------------------------------------------------------------
+
+\section{Introduction}
+
+\section{Discussion}
+
+\subsection{Binary addition and subtraction using ones complement representation}
+{\em A detailed discussion of how the 4-bit adder can be changed into 4-bit subtractor using XOR gates and only one control signal.}
+
+\subsection{Building the hierarchical adder / subtractor}
+{\em A general discussion of the design and the lab.}
+
+\subsubsection{Half adder}
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{HA-schematic}
+	\caption{Schematic of the half adder}
+	\label{fig:HA_schematic}
+\end{figure}
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{HA_test}
+	\caption{Test results of the half adder}
+	\label{fig:HA_test}
+\end{figure}
+
+\subsubsection{Full adder}
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{FA-schematic}
+	\caption{Schematic of the full adder}
+	\label{fig:FA_schematic}
+\end{figure}
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{FA_test}
+	\caption{Test results of the full adder}
+	\label{fig:FA_test}
+\end{figure}
+
+\subsubsection{Adder / subtractor}
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{add_sub-schematic}
+	\caption{Schematic of the adder / subtractor}
+	\label{fig:AS_schematic}
+\end{figure}
+
+\begin{figure}[htpb]
+	\centering
+	\subfigure[Addition]
+	{
+		\includegraphics[width=0.95\textwidth]{add_sub-add}
+	}
+	\subfigure[Subtraction]
+	{
+		\includegraphics[width=0.95\textwidth]{add_sub-sub}
+	}
+	\caption{Test results of the adder / subtractor}
+	\label{fig:AS_test}
+\end{figure}
+
+\begin{table}[htpb]
+	\centering
+	\begin{tabular}{ @{} S S S S S @{} }
+		\toprule 
+		CTRL& A	 & B  & S  & C  \\
+		\midrule
+		0	& 1  & 4  & 5  & 0  \\
+		0	& -3 & 2  & -1 & 0  \\
+		0	& -5 & -1 & -6 & 1  \\
+		0	& 7  & 6  & -3 & 0  \\
+		0	& -5 & -5 & 7  & 1  \\
+		1	& 4  & 2  & 2  & 1  \\
+		1	& 4  & -1 & 5  & 0  \\
+		1	& -2 & 3  & -5 & 1  \\
+		1	& -3 & -4 & 1  & 1  \\
+		1	& 4  & -6 & -6 & 0  \\
+		1	& -5 & 4  & 7  & 1  \\
+		\bottomrule
+	\end{tabular}
+	\caption{Output of the adder / subtractor for several test cases, in decimal}
+	\label{table:AS_output}
+\end{table}
+
+\subsection{Verilog hierarchical adder / subtractor}
+
+\subsubsection{Listings}
+\lstinputlisting{FA.v}
+\lstinputlisting{AddSub.v}
+
+\subsubsection{Simulation results and delay times}
+\begin{figure}[htpb]
+	\centering
+	\subfigure[Functional simulation]
+	{
+		\includegraphics[width=0.95\textwidth]{fa_test_verilog}
+	}
+	\subfigure[Post place timing]
+	{
+		\includegraphics[width=0.95\textwidth]{fa_test_verilog_postplace}
+	}
+	\subfigure[Delay]
+	{
+		\includegraphics[]{fa_test_verilog_delay}
+	}
+	\caption{Simulation results for the full adder written in verilog}
+	\label{fig:FA_verilog}
+\end{figure}
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{add_sub_test_verilog}
+	\caption{Functional simulation results for adder / subtractor written in verilog}
+	\label{fig:AS_verilog}
+\end{figure}
+
+\section{Conclusion}
+
+\end{document}
