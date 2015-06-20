@@ -206,13 +206,19 @@ A01 - B03\\[1.5cm]
 
 \section{Introduction}
 
+Combinational logic circuits can be implemented to add and subtract binary numbers. In this lab, a 4-bit binary adder/subtractor was designed, implemented and tested through the Xilinx ISE and Verilog HDL. Two 4-bit binary numbers and a single-bit control, to indicate adding or subtracting, were the inputs, while a 4-bit sum and single bit carry were the outputs. 
+
 \section{Discussion}
 
 \subsection{Binary addition and subtraction using ones complement representation}
-{\em A detailed discussion of how the 4-bit adder can be changed into 4-bit subtractor using XOR gates and only one control signal.}
+
+Addition of two 1-bit binary numbers (i.e. A + B) is achieved simply by adding A + B where a sum and carry are the outputs. Subtraction of two 1-bit binary numbers (i.e. A - B) can be achieved by taking the 2's complement of B and adding it to A. The 2's complement of B is the 1's complement of B, which is simply B' with the value 1 added to it. XOR gates have characteristic functions X $\oplus$ 0 = X, and  X $\oplus$  1 = X'. 
+
+For addition, where CONTROL is set to 0, the XOR gate provides no change to B, so B is added to A. For subtraction, CONTROL is set to 1 which inverts B through the XOR gate, CONTROL is then inputed as CIN which effectively adds 1 to the inverted B to become its 2's complement. This process can be expanded from the 1-bit system explained here, to the 4-bit system explored in the lab.
 
 \subsection{Building the hierarchical adder / subtractor}
 {\em A general discussion of the design and the lab.}
+
 
 \subsubsection{Half adder}
 \begin{figure}[htpb]
