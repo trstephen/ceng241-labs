@@ -206,21 +206,24 @@ A01 - B03\\[1.5cm]
 
 \section{Introduction}
 
-Combinational logic circuits can be implemented to add and subtract binary numbers. In this lab, a 4-bit binary adder/subtractor was designed, implemented and tested through the Xilinx ISE and Verilog HDL. Two 4-bit binary numbers and a single-bit control, to indicate adding or subtracting, were the inputs, while a 4-bit sum and single bit carry were the outputs. 
+Combinational logic circuits can be implemented to add and subtract binary numbers. In this lab, a 4-bit binary adder/subtractor was designed, implemented and tested through the Xilinx ISE and Verilog HDL.  
 
 \section{Discussion}
 
 \subsection{Binary addition and subtraction using ones complement representation}
 
-Addition of two 1-bit binary numbers (i.e. A + B) is achieved simply by adding A + B where a sum and carry are the outputs. Subtraction of two 1-bit binary numbers (i.e. A - B) can be achieved by taking the 2's complement of B and adding it to A. The 2's complement of B is the 1's complement of B, which is simply B' with the value 1 added to it. XOR gates have characteristic functions X $\oplus$ 0 = X, and  X $\oplus$  1 = X'. 
+Addition of two 1-bit binary numbers (i.e. A + B) is achieved simply by adding A + B where a sum (S) and carry (C) are the outputs. Subtraction of two 1-bit binary numbers (i.e. A - B) can be achieved by taking the 2's complement of B and adding it to A. The 2's complement of B is the 1's complement of B, which is simply B' with the value 1 added to it. XOR gates have characteristic functions X $\oplus$ 0 = X, and  X $\oplus$  1 = X'. 
 
-For addition, where CONTROL is set to 0, the XOR gate provides no change to B, so B is added to A. For subtraction, CONTROL is set to 1 which inverts B through the XOR gate, CONTROL is then inputed as CIN which effectively adds 1 to the inverted B to become its 2's complement. This process can be expanded from the 1-bit system explained here, to the 4-bit system explored in the lab.
+For addition, CONTROL is set to 0, so the XOR gate provides no change to B; B is added to A. For subtraction, CONTROL is set to 1 which inverts B through the XOR gate, CONTROL is then inputed as CIN which effectively adds 1 to the inverted B to become its 2's complement. This process can be expanded from the 1-bit system explained here, to the 4-bit system explored in the lab.
 
 \subsection{Building the hierarchical adder / subtractor}
-{\em A general discussion of the design and the lab.}
 
+To construct the complex 4-bit adder/subtractor, a hierarchical design was implemented to build the circuit in stages which greatly simplified it. The adder/subtractor shown in figure \ref{fig:AS_schematic}, required four full-adders (FA) and four XOR gates. The FAs were constructed from two half-adders (HA) and an OR gate shown in figure \ref{fig:FA_schematic}. Each HAs were constructed using only logic gates illustrated in figure \ref{fig:HA_schematic}.
 
 \subsubsection{Half adder}
+
+First, the HA was designed on the Xilinx ISE (figure \ref{fig:HA_schematic}). To ensure a properly functioning circuit, a simulation was performed to ensure proper outputs from any inputs; the results appear in figure \ref{fig:HA_test}.
+
 \begin{figure}[htpb]
 	\centering
 	\includegraphics[width=0.95\textwidth]{HA-schematic}
@@ -236,6 +239,9 @@ For addition, where CONTROL is set to 0, the XOR gate provides no change to B, s
 \end{figure}
 
 \subsubsection{Full adder}
+
+Second, the FA, shown in figure \ref{fig:FA_schematic}, was designed on the schematic editor. The circuit was similarly tested as the HA to ensure proper functionality; its results appear in figure \ref{fig:FA_test}.
+
 \begin{figure}[htpb]
 	\centering
 	\includegraphics[width=0.95\textwidth]{FA-schematic}
@@ -251,6 +257,11 @@ For addition, where CONTROL is set to 0, the XOR gate provides no change to B, s
 \end{figure}
 
 \subsubsection{Adder / subtractor}
+
+Next, the adder/subtractor was laid out as indicated in figure \ref{fig:AS_schematic}. Notice, there are two 4-bit binary numbers plus a single bit CONTROL that comprise the inputs, while the outputs are a 4-bit sum with a single bit carry. As indicated earlier, the CONTROL bit is responsible for the equation's operation: either 0 for addition, or 1 for subtraction. 
+
+The adder/subtractor was tested with various inputs that can be observed in figure \ref{fig:AS_test}. The results are also included in table \ref{table:AS_output}.
+
 \begin{figure}[htpb]
 	\centering
 	\includegraphics[width=0.95\textwidth]{add_sub-schematic}
@@ -297,11 +308,18 @@ For addition, where CONTROL is set to 0, the XOR gate provides no change to B, s
 
 \subsection{Verilog hierarchical adder / subtractor}
 
+Similar to the schematic method, a hierarchical design for the adder/subtractor was implemented with the Verilog HDL. The FA, displayed in FA.v, included the HA design from Lab 2. The code forming the adder/subtractor is laid out in AddSub.v.
+
 \subsubsection{Listings}
 \lstinputlisting{FA.v}
 \lstinputlisting{AddSub.v}
 
 \subsubsection{Simulation results and delay times}
+
+To ensure the functionality of the FA, a functional simulation was performed which can be viewed in figure \ref{fig:FA_verilog}(a). Post place simulation indicated a circuit delay of 7.3 ns which can be viewed in figures \ref{fig:FA_verilog}(b)\&(c).
+
+The adder/subtractor was then tested for functionality, and the summations and deductions can be observed in figure \ref{fig:AS_verilog}. Many attempts of observing a propagation delay of the adder/subtractor verilog through post place simulation were ultimately unsuccessful. 
+
 \begin{figure}[htpb]
 	\centering
 	\subfigure[Functional simulation]
@@ -328,5 +346,7 @@ For addition, where CONTROL is set to 0, the XOR gate provides no change to B, s
 \end{figure}
 
 \section{Conclusion}
+
+This lab proved the possibility of creating a hierarchic 4-bit adder/subtractor from a single control bit, XOR gates, and FAs on two separate platforms. The schematic method worked flawlessly, while the verilog method, possibly due to a glitch, would not propagate the delay.
 
 \end{document}
