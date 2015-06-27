@@ -151,7 +151,7 @@
 
 % Lab Title
 \HRule \\[0.4cm]
-{\huge \bfseries Lab 0 - Template}\\[0.2cm] % Title of your document
+{\huge \bfseries Lab 6 - Sequential Circuits: \\Flip-Flops and Counters}\\[0.2cm] % Title of your document
 \HRule \\[1.5cm]
  
  
@@ -204,6 +204,74 @@ A01 - B03\\[1.5cm]
 %				    BODY
 %----------------------------------------------------------------------------
 
-foo
+\section{Introduction}
+
+\section{555 Timer}
+\begin{itemize}
+	\item Values for Ra, Rb, C
+	\item Expected values for duty cycle and frequency based on formula
+	\item screenshot of two clock cycles
+\end{itemize}
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{timer}
+	\caption{Output of the timer pin (top) and capacitor pin (bottom) for a 555 timer}
+	\label{fig:timer}
+\end{figure}
+
+\section{RS Latch}
+\begin{itemize}
+	\item schematic of latch with two inverters on output
+	\item screenshot of oscillations at 00/11
+	\item how does frequency of oscilations relate to delay in circuit?
+\end{itemize}
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{rs_latch}
+	\caption{Oscillatory output of an RS latch in the indeterminate state}
+	\label{fig:rs_latch}
+\end{figure}
+
+\section{D Flip-Flop}
+\begin{itemize}
+	\item screenshot of D-FF changing on negative edge
+	\item description of how D-FF works
+\end{itemize}
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{d-ff}
+	\caption{The D flip-flop only updates its value on the falling edge}
+	\label{fig:d-ff}
+\end{figure}
+
+\section{T Flip-Flop}
+\begin{itemize}
+	\item screenshot for T=1
+\end{itemize}
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{t-ff}
+	\caption{Output of a T flip-flop for $T=1$}
+	\label{fig:t-ff}
+\end{figure}
+
+\section{Counter}
+\begin{itemize}
+	\item schematic of circuit as built in lab
+	\item Explain why the output of the circuit is not in the range of 3 to 12 in the first few clock cycles.
+\end{itemize}
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{schematic_counter}
+	\caption{74LS163 used to count 3 to 12 before resetting}
+	\label{fig:counter}
+\end{figure}
+
+\section{Conclusion}
 
 \end{document}
