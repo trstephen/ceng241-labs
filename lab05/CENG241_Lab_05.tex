@@ -206,12 +206,19 @@ A01 - B03\\[1.5cm]
 
 \section{Introduction}
 
+Sequential logic depends on present and past signals to determine the system's next state, hence sequential circuits have memory. The SR latches, D flip flops, T flip flops, and counters are examples of sequential circuits; they will be explored in this lab.
+
 \section{555 Timer}
-\begin{itemize}
-	\item Values for Ra, Rb, C
-	\item Expected values for duty cycle and frequency based on formula
-	\item screenshot of two clock cycles
-\end{itemize}
+
+The required duty cycle of 50\% and frequency of a few hertz were obtained from using resistors $R_a = 330\Omega$, $R_b = 1M\Omega$  and a capacitor $C = 0.1\mu\Omega$. From the following formulas,
+\[
+       Clock\\\ frequency=\frac { 1.44 }{ ({ R }_{ a }+2{ R }_{ b })C } 
+\]
+\[
+       Duty\\\ cycle=\frac { { R }_{ a }+{ R }_{ b } }{ { R }_{ a }+2{ R }_{ b } } 
+\]
+the expected clock frequency and duty cycle was 7.2Hz and 50\% respectfully. Figure \ref{fig:timer} shows the experimental frequency of 8.2Hz with a duty cycle of 54.08\%. Resistance and capacitance in the leads may account for these discrepancies. 
+
 
 \begin{figure}[htpb]
 	\centering
