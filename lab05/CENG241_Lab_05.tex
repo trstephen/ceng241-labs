@@ -228,11 +228,14 @@ the expected clock frequency and duty cycle was calculated to be 7.2Hz and 50\% 
 \end{figure}
 
 \section{RS Latch}
+
 \begin{itemize}
 	\item schematic of latch with two inverters on output
-	\item screenshot of oscillations at 00/11
-	\item how does frequency of oscilations relate to delay in circuit?
 \end{itemize}
+
+
+Figure \ref{fig:rs_latch} shows an undebounced oscillation resulting from the response of switching RS = 00 to RS = 11. A value of 130ns is obtained from measuring the peak to peak period from the graph in this figure. Two 74C04 inverters were added to the RS latch circuit to extend the propagation delay enough to capture its effects. The 74C04 inverters advertise a typical 50ns delay with a maximum value of 90ns. Each 74LS00 NAND gates advertise a minimum 3ns to a maximum 15ns propagation delay. The total manufactured propagation delay for this circuit would be a minimum of 106ns to a maximum of 210ns, which confirms our result of 130ns.
+
 
 \begin{figure}[htpb]
 	\centering
@@ -242,10 +245,8 @@ the expected clock frequency and duty cycle was calculated to be 7.2Hz and 50\% 
 \end{figure}
 
 \section{D Flip-Flop}
-\begin{itemize}
-	\item screenshot of D-FF changing on negative edge
-	\item description of how D-FF works
-\end{itemize}
+
+Figure \ref{fig:d-ff} shows the negative edge triggered D flip-flop. The D flip-flop has two inputs: a clock signal, and an input signal. The output reflects the input only during the brief moment of the falling edge of the clock and keeps that state until the next falling edge where it reevaluates its state from the input. 
 
 \begin{figure}[htpb]
 	\centering
@@ -255,9 +256,8 @@ the expected clock frequency and duty cycle was calculated to be 7.2Hz and 50\% 
 \end{figure}
 
 \section{T Flip-Flop}
-\begin{itemize}
-	\item screenshot for T=1
-\end{itemize}
+
+The T flip-flop is shown in figure \ref{fig:t-ff}. It performs analogously to the D flip-flop except this flip-flop's input is the T signal XOR with the output Q(t) to give the next state Q(t+1). Also, similar to the D flip-flop above, this flip-flop is triggered on falling edges only. With the input signal $T = 1$, the output will alternate between 1 and 0.
 
 \begin{figure}[htpb]
 	\centering
@@ -267,10 +267,10 @@ the expected clock frequency and duty cycle was calculated to be 7.2Hz and 50\% 
 \end{figure}
 
 \section{Counter}
-\begin{itemize}
-	\item schematic of circuit as built in lab
-	\item Explain why the output of the circuit is not in the range of 3 to 12 in the first few clock cycles.
-\end{itemize}
+
+**** Tyler you might need to help me with this one. I don't understand it enough to explain it properly. Why is it not in the range 3-12 in the first few cycles??
+
+Figure \ref{fig:counter} is a schematic of the counter circuit built which counts from 3 to 12. The input signal P is preset to 3 (0011): $P_0$ and $P_1$ are connected to $V_{cc}$ (high), while $P_2$ and $P_3$ are connected to ground (low). $P_e$, the enable, is activated on a low signal, which happens at the value of 12: $P_2 = 1$ and $P_3 = 1$. When this occurs, the counter is reset to its preset input 0011. 
 
 \begin{figure}[htpb]
 	\centering
@@ -280,5 +280,7 @@ the expected clock frequency and duty cycle was calculated to be 7.2Hz and 50\% 
 \end{figure}
 
 \section{Conclusion}
+
+Sequential logic was explored in this lab. A common relationship between these circuits is that they require the present output to determine its next state; in a sense, these circuits have memory.
 
 \end{document}
