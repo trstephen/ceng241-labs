@@ -151,7 +151,7 @@
 
 % Lab Title
 \HRule \\[0.4cm]
-{\huge \bfseries Lab 0 - Template}\\[0.2cm] % Title of your document
+{\huge \bfseries Lab 5 - Sequential Circuits: \\Flip-Flops and Counters}\\[0.2cm] % Title of your document
 \HRule \\[1.5cm]
  
  
@@ -204,6 +204,81 @@ A01 - B03\\[1.5cm]
 %				    BODY
 %----------------------------------------------------------------------------
 
-foo
+\section{Introduction}
+
+Sequential logic depends on present and past signals to determine the system's next state, hence sequential circuits have memory. The SR latches, D flip flops, T flip flops, and counters are examples of sequential circuits; they will be explored in this lab.
+
+\section{555 Timer}
+
+The required duty cycle of 50\% and frequency of a few hertz were obtained using resistors $R_a = \SI{330}{\ohm}$, $R_b = \SI{1}{\mega\ohm}$  and a capacitor $C = \SI{0.1}{\micro\farad}$. From the following formulas,
+\begin{displaymath}
+\text{Clock frequency} = \frac{1.44}{\left( R_a + 2R_b \right)C} 
+\quad \quad
+\text{Duty cycle} = \frac{R_a + R_b}{R_a + 2R_b}
+\end{displaymath}
+the expected clock frequency and duty cycle were calculated to be \SI{7.2}{\hertz} and 50\% respectively. Figure \ref{fig:timer} shows the experimental frequency of \SI{8.2}{\hertz} with a duty cycle of 54.08\%. Resistance and capacitance in the leads may account for these discrepancies.
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{timer}
+	\caption{Output of the timer pin (top) and capacitor pin (bottom) for a 555 timer}
+	\label{fig:timer}
+\end{figure}
+
+\section{RS Latch}
+
+%\begin{itemize}
+%	\item schematic of latch with two inverters on output
+%\end{itemize}
+
+
+Figure \ref{fig:rs_latch} shows an undebounced oscillation resulting from the response of switching RS = 00 to RS = 11. A period of \SI{130}{\nano\second} is obtained from measuring the peak to peak distance from the graph in this figure. Two 74C04 inverters were added to the RS latch circuit to extend the propagation delay enough to capture its effects. The 74C04 inverters advertise a typical \SI{50}{\nano\second} delay with a maximum value of \SI{90}{\nano\second}. Each 74LS00 NAND gates advertise a minimum \SI{3}{\nano\second} to a maximum \SI{15}{\nano\second} propagation delay. The total manufactured propagation delay for this circuit would be a minimum of \SI{106}{\nano\second} to a maximum of \SI{210}{\nano\second}, which confirms our result of \SI{130}{\nano\second}.
+
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{rs_latch}
+	\caption{Oscillatory output of an RS latch in the indeterminate state}
+	\label{fig:rs_latch}
+\end{figure}
+
+\section{D Flip-Flop}
+
+Figure \ref{fig:d-ff} shows the negative edge triggered D flip-flop. The D flip-flop has two inputs: a clock signal, and an input signal. The output reflects the input only during the brief moment of the falling edge of the clock and keeps that state until the next falling edge where it reevaluates its state from the input. 
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{d-ff}
+	\caption{The D flip-flop only updates its value on the falling edge}
+	\label{fig:d-ff}
+\end{figure}
+
+\section{T Flip-Flop}
+
+A T flip-flop is similar to the D flip-flop except this flip-flop's input is the $T$ signal XOR with its output $Q_t$ to give the next state $Q_{t+1}$. Unlike the D flip-flop, the T flip-flop is triggered on the rising edge of the clock. With $T = 1$, the flip-flop will change its value at every rising edge. This behavior is shown in the bottom trace in Figure \ref{fig:t-ff}.
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{t-ff}
+	\caption{Output of a T flip-flop for $T=1$}
+	\label{fig:t-ff}
+\end{figure}
+
+\newpage
+\section{Counter}
+Figure \ref{fig:counter} is a schematic of the counter circuit built to count from 3 to 12. The input signal $P$ is preset to 3 (0011): $P_0$ and $P_1$ are connected to $V_{cc}$ (high), while $P_2$ and $P_3$ are connected to ground (low). $\overline{Pe}$, the enable, is activated on a low signal. The first time this happens is when the counter reaches 12 (1100). At this point, the input to $\overline{Pe}$ is low and the values from $P_i$ are loaded. The default values disable $\overline{Pe}$ on the next clock cycle and the count resumes.
+
+The circuit initially displayed 0 for the first few clock cycles. This occurs because it takes a non-zero amount of clock cycles to fully load the sequential circuits internal to the 74LS163. Once the circuits are loaded, each clock cycle will allow the inputs ($Q_t$ or $P_i$) to propagate directly to the output $Q_{t+1}$.
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{schematic_counter}
+	\caption{74LS163 used to count 3 to 12 before resetting}
+	\label{fig:counter}
+\end{figure}
+
+\section{Conclusion}
+
+Sequential logic was explored in this lab. A common relationship between these circuits is that they require the present output to determine its next state; in a sense, these circuits have memory.
 
 \end{document}
