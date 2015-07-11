@@ -19,10 +19,10 @@
 \usepackage{
 	amsmath,			% math operators
 	amssymb,			% math symbols
-	%	amsthm,				% theorem environment
+%	amsthm,				% theorem environment
 	soul,				% strike through with \st{}
 	xcolor,				% color!
-	%	xfrac,				% fancy fractions
+%	xfrac,				% fancy fractions
 }	
 
 \definecolor{mygreen}{rgb}{0,0.6,0}
@@ -45,7 +45,7 @@
 \usepackage{
 	booktabs,			% better tables, discourages vertical rulings
 	multicol,			% allow multi columns
-	%			tocloft,			% finer control over TOC; enabled below due to subfigure conflict
+%			tocloft,			% finer control over TOC; enabled below due to subfigure conflict
 }
 %\usepackage[subfigure]{tocloft}
 %\addtocontents{toc}{\cftpagenumbersoff{subsubsection}} % turn off subsubsection page numbers in ToC
@@ -53,14 +53,14 @@
 %% Layout Alteration
 %% --------------------------
 \usepackage{			
-	%			caption,			% line breaks in captions with \\
-	%			changepage,			% change margins for PARTS of pages with (adjustwidth)
+%	caption,			% line breaks in captions with \\
+%	changepage,			% change margins for PARTS of pages with (adjustwidth)
 	fancyhdr,			% see config in LAYOUT AND STYLING
-	%			floatrow,			% multiple graphics, tables, etc in figure environment
+%	floatrow,			% multiple graphics, tables, etc in figure environment
 	framed,				% nice boxes; used in Supervisor's Approval
-	%			fullpage,			% set full page margins
+%	fullpage,			% set full page margins
 	geometry,			% change the margins for specific PAGES
-	%			lastpage,			% used with (fancyhdr)
+%	lastpage,			% used with (fancyhdr)
 	parskip,			% disable indents
 	pdflscape,			% ???
 	rotating,			% sideways figures
@@ -79,8 +79,8 @@
 }
 \sisetup{input-symbols = {()},  % do not treat "(" and ")" in any special way
 	group-digits  = false, 	% no grouping of digits
-	%		load-configurations = abbreviations,
-	%		per-mode = symbol,
+%	load-configurations = abbreviations,
+%	per-mode = symbol,
 }
 
 %% Misc
@@ -96,7 +96,7 @@
 	numbers=none,                   % where to put the line-numbers
 	numberstyle=\tiny\color{mygray},% the style that is used for the line-numbers
 	stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
-	% 	will be numbered
+									% 	will be numbered
 	numbersep=5pt,                  % how far the line-numbers are from the code
 	backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
 	showspaces=false,               % show spaces adding particular underscores
@@ -104,13 +104,13 @@
 	showtabs=false,                 % show tabs within strings adding particular underscores
 	frame=single,	                % box the code [single, none]
 	rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks
-	% 	within not-black text (e.g. commens (green here))
+									% 	within not-black text (e.g. commens (green here))
 	tabsize=2,                      % sets default tabsize to 2 spaces
 	captionpos=b,                   % sets the caption-position to bottom
 	breaklines=true,                % sets automatic line breaking
 	breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
 	title=\lstname,                 % show the filename of files included with \lstinputlisting;
-	% 	also try caption instead of title
+									% 	also try caption instead of title
 	keywordstyle=[1]\bfseries\color{darkblue},    % keyword style for mnemonics
 	keywordstyle=[2]\bfseries\color{violet},	% keyword style for . mnemonics
 	commentstyle=\color{mygreen},   % comment style
@@ -360,14 +360,16 @@ A01 - B03\\[1.5cm]
 %----------------------------------------------------------------------------
 
 \section{Introduction}
+This lab will explore the difference between Mealy and Moore state machines. Both types of state machine will be constructed to detect a specific input sequence. The entire design process will be demonstrated for both machines.
 
+\section{Discussion}\label{sec:discussion}
+%{\em A brief description about what the circuit will do.
+%	
+%	Difference between Moore and Mealy?
+%	
+%	Method for generating circuits? State machine $\rightarrow$ Truth table $\rightarrow$ Kmap $\rightarrow$ Boolean $\rightarrow$ circuits}
 
-\section{Discussion}
-{\em A brief description about what the circuit will do.
-	
-	Difference between Moore and Mealy?
-	
-	Method for generating circuits? State machine $\rightarrow$ Truth table $\rightarrow$ Kmap $\rightarrow$ Boolean $\rightarrow$ circuits}
+Suppose we want to detect the sequence ``1101'' within an input stream. Overlapping sequences will be detect (i.e. the last 1 of the first sequence can be the first 1 of the next sequence). The input and output will follow this pattern:
 
 \begin{table}[htpb]
 	\centering
@@ -377,7 +379,12 @@ A01 - B03\\[1.5cm]
 	\end{tabular}
 \end{table}
 
+It is possible to design a sequential circuit to accomplish this task. First, the system's response to input will be codified into a state diagram. Next, this state diagram will be translated into state tables. From there, Karnaugh maps and Boolean expressions will inform the physical design of the circuit.
+
 \subsection{State diagrams}
+There are two types of state machine to choose from: the Moore machine and the Mealy machine. The Moore machine can determine its output based entirely on the current state. The Mealy machine needs to know the input in addition to the current state to determine its output. Since Mealy machines link the output to the input for a state, they will always require the same or fewer states than the equivalent Moore machine.
+
+Figure \ref{fig:state_machines} shows both state diagrams for the sequence detector. Overlapping sequence detection is controlled by having the final 1 input link to the ``interior'' of the state diagram rather than the initial state.
 
 \begin{figure}[htpb]
 	\centering
@@ -428,7 +435,9 @@ A01 - B03\\[1.5cm]
 	\label{fig:state_machines}
 \end{figure}
 
+\pagebreak
 \subsection{Transition tables}
+To create the state transition tables, first enumerate the states. The number of flip-flops required will be equal to $\lceil \log_2 \left( \text{number of states} \right) \rceil$. The next state is determined by following the state diagram. For the output, the Mealy transition table requires the input in addition to the current state. D flip-flops were used to construct the circuits in this lab. Consequently, the results of the next state table can be used directly as inputs for the flip-flops. The next state table will require an accompanying excitation table for T or JK flip-flops.
 \begin{figure}[htpb]
 	\centering
 	\subfigure[State enumeration]
@@ -535,7 +544,9 @@ A01 - B03\\[1.5cm]
 	\label{table:transition_mealy}
 \end{figure}
 
+\newpage
 \subsection{Karnaugh maps}
+Karnaugh maps are generated from the transition tables. The Moore and Mealy methods are identical from this point in the design going forward.
 \begin{figure}[htpb]
 	\centering
 	\subfigure[$S_2^+$]
@@ -588,6 +599,7 @@ S_0^+ &= S_1 S_0^\prime X^\prime + S_1^\prime S_0^\prime X \\
 Z &= S_2
 \end{align*}
 
+\newpage
 \begin{figure}[htpb]
 	\centering
 	\subfigure[$S_1^+$]
@@ -628,9 +640,30 @@ The optimal boolean functions for the Mealy machine are
 		Z &= S_1 S_0 X\\
 \end{align*}
 
-\section{Xilinx simulation}
-{\em Include schematic for Mealy machine and functional output}
+\section{Simulations}
+%{\em Include schematic for Mealy machine and functional output}
+
+We chose to construct the Mealy machine because it required one fewer flip-flop. The Boolean expression was implemented in the schematic in Figure \ref{fig:schematic}.
+
+\begin{figure}[tbph]
+\centering
+\includegraphics[width=0.95\linewidth]{graphics/lab6_schematic}
+\caption{Mealy machine schematic}
+\label{fig:schematic}
+\end{figure}
+
+The input stream from the beginning of Section \ref{sec:discussion} was used as a simulation input source. Figure \ref{fig:sim} shows that the schematic gives the correct output in a Xilinx simulation.
+
+\begin{figure}[tbph]
+\centering
+\includegraphics[width=0.95\linewidth]{graphics/lab6_simulation}
+\caption{The Mealy machine correctly identifies the sequence ``1101'' from the input stream}
+\label{fig:sim}
+\end{figure}
+
+The schematics were used to construct a Mealy machine using physical ICs. It was also successful in identifying the sequence from the input stream.
 
 \section{Conclusion}
+Sequential circuits can be created from Moore and Mealy machines. We were successful in creating a sequence detecting machine using the Mealy method and confirmed the results with computer and physical simulations.
 
 \end{document}
