@@ -362,10 +362,31 @@ A01 - B03\\[1.5cm]
 
 \section{Introduction}
 
+The RAM controller reads and writes data to RAM modules. In this lab, the RAM controller was designed and implemented using D-FFs in a system similar to figure \ref{fig:controller}. 
 
 \section{Discussion}\label{sec:discussion}
 
-{\em Description of how the RAM read and write operations are implemented in the system of Fig. 1.}
+The memory system built is shown in figure \ref {fig:controller}. The state diagram, included on page 3, determines the proper sequence to set the RAM controller into read or write mode. The RAM write operation cycle is summarized by the following: 
+
+\begin{itemize}
+ 
+ 	 \item the RAM is set to accept data,
+	 \item the 4-bit counter generates an address for the data,
+ 	 \item the buffer is active and transmits its data to the RAM at the specified address,
+	 \item the register is in stand-by state.
+	  
+\end{itemize}
+
+The RAM read cycle is summarized by the following:
+
+\begin{itemize}
+ 
+ 	 \item the RAM is set to output data,
+	 \item the value of the 4-bit counter is the location of the read data,
+ 	 \item the buffer is set to high impedance mode which blocks all data to the RAM,
+	 \item the register is active and outputs the data received from the RAM.
+	  
+\end{itemize}
 
 \begin{figure}[htpb]
 	\centering
@@ -375,25 +396,27 @@ A01 - B03\\[1.5cm]
 \end{figure}
 
 \subsection{Timing considerations}
-{\em Explanation of the read and write timing diagrams}
+
+The read and write timing diagrams, shown in figure \ref{fig:read-timing} and figure \ref{fig:write-timing} respectively, indicate that the moment in which the data is valid is offset from moment where the address is valid; the data is valid after the address is valid. The access time and hold time for the read operation and write operation respectively can be attributed to the RAM's internal delay of \SI{85}{\nano\second} maximum. However, this does not pose a problem with a manual clock, but could become a nuisance should high-frequency clock be used.
 
 \begin{figure}[htpb]
 	\centering
 	\includegraphics[scale=0.5]{read}
 	\caption{Timing diagram for the RAM read operation}
-	\label{fig:write-timing}
+	\label{fig:read-timing}
 \end{figure}
 
 \begin{figure}[htpb]
 	\centering
 	\includegraphics[scale=0.5]{write}
 	\caption{Timing diagram for the RAM write operation}
-	\label{fig:read-timing}
+	\label{fig:write-timing}
 \end{figure}
 
 \section{RAM controller design process}
 \subsection{State diagram}
-{\em State diagram of the controller}
+
+The state diagram of the RAM controller is shown below. The system was designed as a Moore machine with the transition tables displayed in figure \ref{table:transition-moore}. 
 
 \begin{figure}[htpb]
 	\centering
@@ -431,8 +454,7 @@ A01 - B03\\[1.5cm]
 	\end{tikzpicture}
 \end{figure}	
 
-\subsection{Controller logic}
-{\em The logic design of the controller using D-FF}
+\newpage
 
 \begin{figure}[htpb]
 	\centering
@@ -491,13 +513,28 @@ A01 - B03\\[1.5cm]
 		\end{tabular}
 	}
 	\caption[figurename=Table]{Transition tables for the Moore machine}
-	\label{table:transition-mealy}
+	\label{table:transition-moore}
 \end{figure}
+
+
+From here three karnaugh maps were used to resolve the next states $S_2^+$, $S_1^+$, and $S_0^+$. Their state equations are shown below.
 
 \begin{align*}
 	S_2^+ &= S_2 S_0^{\prime} + S_1^{\prime} S_0^{\prime}\; Go\; R/\overline{W}\\
 	S_1^+ &= S_1\; \text{XOR}\; S_0 \\
 	S_0^+ &= S_2 + S_1 S_0^{\prime} + S_0^{\prime}\; Go\; R/\overline{W} \\
+\end{align*}
+
+\newpage
+
+The state outputs are summarized in table \ref{table:state_output}. Five karnaugh maps were needed to resolve their state equations which are shown below.
+
+\begin{align*}
+	\overline{OE} &= S_1^{\prime} S_0^{\prime} + S_1 S_0 \\
+	\overline{WE} &= S_2^{\prime} \\
+	Load &= S_1 S_0^{\prime} \\
+	\overline{Read} &= S_1 + S_2^{\prime} S_0 \\
+	Incr &= S_1 S_0 \\
 \end{align*}
 
 \begin{table}
@@ -515,16 +552,23 @@ A01 - B03\\[1.5cm]
 			1 & 1 & 1 & - & - & - & - & - \\
 		\end{tabular}
 	\caption{State output}
+	\label{table:state_output}
 \end{table}
 
-\begin{align*}
-	\overline{OE} &= S_1^{\prime} S_0^{\prime} + S_1 S_0 \\
-	\overline{WE} &= S_2^{\prime} \\
-	Load &= S_1 S_0^{\prime} \\
-	\overline{Read} &= S_1 + S_2^{\prime} S_0 \\
-	Incr &= S_1 S_0 \\
-\end{align*}
+\subsection{Controller logic}
+
+The schematic of the logic design for the RAM controller is included in figure \ref{fig:schematic}. This design was implemented using three D-FFs plus some external logic.
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[scale=0.5]{controller.pdf}
+	\caption{RAM controller logic design}
+	\label{fig:schematic}
+\end{figure}
+
 
 \section{Conclusion}
+
+A functioning 4-bit RAM controller was built using D-FFs and some external logic. The system had a 4-bit counter which determined the address of the data. Four LEDs displayed the present address, while, when in read mode, four other LEDs revealed the stored data at that address. 
 
 \end{document}
