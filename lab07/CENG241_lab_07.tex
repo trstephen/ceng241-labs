@@ -362,31 +362,7 @@ A01 - B03\\[1.5cm]
 
 \section{Introduction}
 
-The RAM controller reads and writes data to RAM modules. In this lab, the RAM controller was designed and implemented using D-FFs in a system similar to figure \ref{fig:controller}. 
-
-\section{Discussion}\label{sec:discussion}
-
-The memory system built is shown in figure \ref {fig:controller}. The state diagram, included on page 3, determines the proper sequence to set the RAM controller into read or write mode. The RAM write operation cycle is summarized by the following: 
-
-\begin{itemize}
- 
- 	 \item the RAM is set to accept data,
-	 \item the 4-bit counter generates an address for the data,
- 	 \item the buffer is active and transmits its data to the RAM at the specified address,
-	 \item the register is in stand-by state.
-	  
-\end{itemize}
-
-The RAM read cycle is summarized by the following:
-
-\begin{itemize}
- 
- 	 \item the RAM is set to output data,
-	 \item the value of the 4-bit counter is the location of the read data,
- 	 \item the buffer is set to high impedance mode which blocks all data to the RAM,
-	 \item the register is active and outputs the data received from the RAM.
-	  
-\end{itemize}
+This lab will detail the construction of a RAM system with the ability to store and retrieve 4-bit datawords. A 4-bit counter will generate sequential addresses, a tri-state buffer will control the data input line and a 4-bit register will store the retrieved data from RAM (see Figure \ref{fig:controller}). The focus of this lab will be on the construction of the controller. The purpose of the controller is to ensure that each component in the RAM system is configured properly in the correct sequence needed for reading or writing to RAM.
 
 \begin{figure}[htpb]
 	\centering
@@ -395,9 +371,39 @@ The RAM read cycle is summarized by the following:
 	\label{fig:controller}
 \end{figure}
 
+\section{Discussion}\label{sec:discussion}
+
+The RAM, buffer and register are connected to each other via an address bus. In order for the RAM system to function properly, it is essential that there is only one correct ``path'' for the data to take on the bus. By changing the operating mode of the RAM, register and buffer, the controller changes the path for the data.
+
+When the system is powered on and reset it enters an idle state where both the RAM and register are ``closed'' (their inputs are set to high impedance) and the buffer is passing the selected dataword to the address bus. Based on user input, the read or write cycles can be activated.
+
+To write to RAM:
+\begin{enumerate}
+ 
+ 	 \item RAM I/O is configured as an input and is no longer high impedance
+	 \item a clock cycle passes to prevent timing problems
+ 	 \item the counter is incremented to a new address and the RAM returns to high impedance
+	 \item the system returns to idle
+	  
+\end{enumerate}
+
+\newpage
+To read from RAM:
+
+\begin{enumerate}
+ 
+ 	 \item RAM I/O is configured as an output and the buffer is set to high impedance
+ 	 \item the register reads the RAM output from the bus
+ 	 \item the counter is incremented, the RAM returns to high impedance, the register returns to high impedance and cycles the previous RAM output and the buffer outputs a new dataword to the bus
+ 	 \item the system returns to idle
+	  
+\end{enumerate}
+
+This process is represented as a state machine in Figure \ref{fig:state}.
+
 \subsection{Timing considerations}
 
-The read and write timing diagrams, shown in figure \ref{fig:read-timing} and figure \ref{fig:write-timing} respectively, indicate that the moment in which the data is valid is offset from moment where the address is valid; the data is valid after the address is valid. The access time and hold time for the read operation and write operation respectively can be attributed to the RAM's internal delay of \SI{85}{\nano\second} maximum. However, this does not pose a problem with a manual clock, but could become a nuisance should high-frequency clock be used.
+The read and write timing diagrams, shown in Figure \ref{fig:read-timing} and Figure \ref{fig:write-timing} respectively, indicate that the moment in which the data is valid is offset from moment where the address is valid; the data is valid after the address is valid. The access time and hold time for the read operation and write operation respectively can be attributed to the RAM's internal delay of \SI{85}{\nano\second} maximum. However, this does not pose a problem with a manual clock, but could become a nuisance should high-frequency clock be used.
 
 \begin{figure}[htpb]
 	\centering
@@ -416,18 +422,18 @@ The read and write timing diagrams, shown in figure \ref{fig:read-timing} and fi
 \section{RAM controller design process}
 \subsection{State diagram}
 
-The state diagram of the RAM controller is shown below. The system was designed as a Moore machine with the transition tables displayed in figure \ref{table:transition-moore}. 
+The state diagram of the RAM controller is shown in Figure \ref{fig:state} (note, \textuparrow\; signifies a clock rising edge). The system was designed as a Moore machine with the transition tables displayed in figure \ref{table:transition-moore}. 
 
 \begin{figure}[htpb]
 	\centering
 	\begin{tikzpicture}
 	[>=stealth', shorten >= 1pt, auto, node distance=4cm]
-	\node[state, initial]	(a) []					{$\overline{Read}=0$};
-	\node[state, align=left](b) [above left of=a]	{$\overline{OE}=0$\\$\overline{WE}=1$};
-	\node[state]			(c) [above right of=b]	{$Load=1$};
-	\node[state]			(d) [right of=a]	{$Incr=1$};
-	\node[state, align=left](e) [below left of=a]	{$\overline{OE}=0$\\$\overline{WE}=0$};
-	\node[state, align=center](f) [below right of=e]{Load into \\ RAM};
+	\node[state, initial, align=center]	(a) []					{$(a)$\\$\overline{Read}=0$};
+	\node[state, align=center](b) [above left of=a]	{$(b)$\\$\overline{OE}=0$\\$\overline{WE}=1$};
+	\node[state, align=center]			(c) [above right of=b]	{$(c)$\\$Load=1$};
+	\node[state, align=center]			(d) [right of=a]	{$(d)$\\$Incr=1$};
+	\node[state, align=center](e) [below left of=a]	{$(e)$\\$\overline{OE}=0$\\$\overline{WE}=0$};
+	\node[state, align=center](f) [below right of=e]{$(f)$\\Load into \\ RAM};
 	
 	\path[->]
 	(a) edge [bend left]	node [right, align=left, pos=0.7, yshift=5]	{$Go=1$\\$R/\overline{W}=1$}		(b)
@@ -452,6 +458,8 @@ The state diagram of the RAM controller is shown below. The system was designed 
 	(6.5,-1.0) -- (6.5,-6.5) node [black,midway,xshift=0.5cm,align=left] 
 	{Write to \\ RAM};
 	\end{tikzpicture}
+	\caption{State diagram for the RAM controller}
+	\label{fig:state}
 \end{figure}	
 
 \newpage
@@ -527,7 +535,7 @@ From here three karnaugh maps were used to resolve the next states $S_2^+$, $S_1
 
 \newpage
 
-The state outputs are summarized in table \ref{table:state_output}. Five karnaugh maps were needed to resolve their state equations which are shown below.
+We were able to reduce the complexity of the controller by eliminating two outputs from the controller in Figure \ref{fig:controller}. $\overline{CS}$ was set to LOW peramently and the $\overline{Reset}$ line was externalized from the state machine and made asynchronous. The state outputs are summarized in table \ref{table:state_output}. Five karnaugh maps were needed to resolve their state equations which are shown below.
 
 \begin{align*}
 	\overline{OE} &= S_1^{\prime} S_0^{\prime} + S_1 S_0 \\
@@ -555,20 +563,28 @@ The state outputs are summarized in table \ref{table:state_output}. Five karnaug
 	\label{table:state_output}
 \end{table}
 
+Although the lab manual made it seem necessary to include state $f$ to accommodate timing delays from the RAM, our work in the lab found that the RAM output would appear in the registers in state $e$. This suggests that $f$ and $e$ could be condensed and the number of states reduced by one. However, we would still need three flip-flops to implement the five remaining states.
+
 \subsection{Controller logic}
 
-The schematic of the logic design for the RAM controller is included in figure \ref{fig:schematic}. This design was implemented using three D-FFs plus some external logic.
+The logic of the RAM controller was implemented with D flip-flops. Figure \ref{fig:schematic-controller} shows the design of the state machine and Figure \ref{fig:schematic-output} shows the logic for generating the output.
 
 \begin{figure}[htpb]
 	\centering
 	\includegraphics[scale=0.5]{controller.pdf}
-	\caption{RAM controller logic design}
-	\label{fig:schematic}
+	\caption{RAM controller state machine}
+	\label{fig:schematic-controller}
 \end{figure}
 
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[scale=0.5]{output.pdf}
+	\caption{RAM controller output}
+	\label{fig:schematic-output}
+\end{figure}
 
 \section{Conclusion}
 
-A functioning 4-bit RAM controller was built using D-FFs and some external logic. The system had a 4-bit counter which determined the address of the data. Four LEDs displayed the present address, while, when in read mode, four other LEDs revealed the stored data at that address. 
+A functioning 4-bit RAM controller was built using D flip-flops and some external logic. The system had a 4-bit counter which determined the address of the data. Four LEDs displayed the present address, while, when in read mode, four other LEDs revealed the stored data at that address. 
 
 \end{document}
